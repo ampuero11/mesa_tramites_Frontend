@@ -5,9 +5,9 @@ import FormularioTramite from "../pages/FormularioTramite";
 
 const PublicRoutes: React.FC = () => (
   <Routes>
+    <Route path="/tramite" element={<FormularioTramite />} />
     <Route element={<LandingLayout />}>
       <Route path="/" element={<Home />} />
-      <Route path="/tramite" element={<FormularioTramite />} />
     </Route>
   </Routes>
 );
