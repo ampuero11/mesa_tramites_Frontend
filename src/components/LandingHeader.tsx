@@ -94,7 +94,7 @@ const LandingHeader: React.FC = () => {
           <div className="ml-4">
             <button
               onClick={handleTramite}
-              className="px-4 py-2 bg-yellow-400 text-white font-semibold rounded-lg hover:bg-yellow-500 transition ml-96"
+              className="px-4 py-2 bg-orange-400 text-white font-semibold rounded-lg hover:bg-orange-500 transition ml-96"
             >
               Iniciar Trámite
             </button>
