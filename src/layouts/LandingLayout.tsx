@@ -6,8 +6,8 @@ const LandingLayout: React.FC = () => {
   return (
     <div className="landing-layout">
       <LandingHeader />
-      <main style={{ padding: "20px" }}>
-        <Outlet /> {/* Aquí se renderizan las páginas: Home, Formulario */}
+      <main className="">
+        <Outlet />
       </main>
       <LandingFooter />
     </div>
