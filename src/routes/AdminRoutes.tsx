@@ -5,6 +5,7 @@ import Dashboard from "../pages/admin/Dashboard";
 import TramitesList from "../pages/admin/TramitesList";
 import TramiteDetail from "../pages/admin/TramiteDetail";
 import Actas from "../pages/admin/Actas";
+import TramiteSearch from "../pages/admin/TramiteSearch";
 
 const AdminRoutes: React.FC = () => (
   <Routes>
@@ -14,6 +15,7 @@ const AdminRoutes: React.FC = () => (
       <Route path="/admin/tramites" element={<TramitesList />} />
       <Route path="/admin/tramites/:id" element={<TramiteDetail />} />
       <Route path="/admin/actas/list" element={<Actas />} />
+      <Route path="/admin/buscar" element={<TramiteSearch />} />
     </Route>
   </Routes>
 );
