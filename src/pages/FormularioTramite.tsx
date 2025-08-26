@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useTramite } from "../hooks/useTramite";
 import type { TramitePayload } from "../types/tramite";
 import LoadingButton from "../components/LoadingButton";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const schema = yup.object().shape({
   full_name: yup.string().required("El nombre completo es obligatorio"),
@@ -69,7 +69,6 @@ function FormularioTramite() {
     bg-gradient-to-br from-[#022534] to-[#094f6e]
     p-6"
     >
-      <ToastContainer />
       <div className="max-w-7xl w-full bg-white bg-opacity-90 shadow-xl rounded-xl p-8">
         <h2 className="text-2xl font-bold mb-6 text-center">
           Formulario de Trámite

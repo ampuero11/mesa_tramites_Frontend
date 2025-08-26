@@ -1,14 +1,21 @@
 import { User } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const AdminHeader: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
-  const handleLogout = () => {
-    setShowModal(false);
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setShowModal(false);
+      navigate("/");
+    } catch (err) {
+      console.error("Error en logout:", err);
+    }
   };
 
   return (

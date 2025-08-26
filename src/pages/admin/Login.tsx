@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import LoadingButton from "../../components/LoadingButton";
 import { UserCircle2 } from "lucide-react";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const schema = yup.object().shape({
   email: yup
@@ -14,6 +17,7 @@ const schema = yup.object().shape({
 });
 
 function Login() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -21,13 +25,20 @@ function Login() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const [loading, setLoading] = useState(false);
+  const { login, loading, error } = useAuth();
 
-  const onSubmit = async (data: unknown) => {
-    setLoading(true);
-    await new Promise((res) => setTimeout(res, 2000));
-    console.log("Login enviado:", data);
-    setLoading(false);
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
+
+  const onSubmit = async (data: { email: string; password: string }) => {
+    try {
+      await login(data);
+      toast.success("Inicio de sesión exitoso");
+      navigate("/admin/dashboard");
+    } catch {
+      // el hook ya maneja el error y dispara toast.error
+    }
   };
 
   return (
