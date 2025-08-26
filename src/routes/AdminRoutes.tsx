@@ -9,7 +9,7 @@ import TramiteSearch from "../pages/admin/TramiteSearch";
 
 const AdminRoutes: React.FC = () => (
   <Routes>
-    <Route path="/admin/login" element={<Login />} />
+    <Route path="/admin" element={<Login />} />
     <Route element={<AdminLayout />}>
       <Route path="/admin/dashboard" element={<Dashboard />} />
       <Route path="/admin/tramites" element={<TramitesList />} />
