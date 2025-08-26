@@ -1,7 +1,11 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useTramite } from "../hooks/useTramite";
+import type { TramitePayload } from "../types/tramite";
+import LoadingButton from "../components/LoadingButton";
+import { ToastContainer, toast } from "react-toastify";
 
 const schema = yup.object().shape({
   full_name: yup.string().required("El nombre completo es obligatorio"),
@@ -18,23 +22,38 @@ const schema = yup.object().shape({
 });
 
 function FormularioTramite() {
+  const { crearTramite, loading, error, success } = useTramite();
   const [files, setFiles] = useState<File[]>([]);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: unknown) => {
-    const formData = {
-      ...(data || ""),
+  useEffect(() => {
+    if (error) toast.error(error);
+    if (success) {
+      toast.success("Se envió su trámite...");
+      reset();
+      setFiles([]);
+    }
+  }, [error, success, reset]);
+
+  const onSubmit = async (
+    data: Pick<
+      TramitePayload,
+      "full_name" | "document" | "email" | "phone" | "concept"
+    >
+  ) => {
+    const tramitePayload: TramitePayload = {
+      ...data,
       uploaded_files: files,
     };
-
-    console.log("Formulario enviado:", formData);
+    await crearTramite(tramitePayload);
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +69,7 @@ function FormularioTramite() {
     bg-gradient-to-br from-[#022534] to-[#094f6e]
     p-6"
     >
+      <ToastContainer />
       <div className="max-w-7xl w-full bg-white bg-opacity-90 shadow-xl rounded-xl p-8">
         <h2 className="text-2xl font-bold mb-6 text-center">
           Formulario de Trámite
@@ -120,12 +140,7 @@ function FormularioTramite() {
                   </p>
                 )}
               </div>
-              <button
-                type="submit"
-                className="w-full bg-sky-700 text-white font-bold py-2 rounded hover:bg-sky-800 transition"
-              >
-                Enviar
-              </button>
+              <LoadingButton loading={loading} text="Enviar" type="submit" />
             </div>
             <div>
               <h2 className="text-2xl font-semibold text-sky-900 mb-6">
