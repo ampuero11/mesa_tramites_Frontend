@@ -2,6 +2,11 @@ import { useNavigate } from "react-router-dom";
 import { Element } from "react-scroll";
 import bannerImg from "../assets/img/1.jpeg";
 import fondoImg from "../assets/img/2.jpeg";
+import alcalde from "../assets/img/alcalde.jpeg";
+import toro from "../assets/img/toro.jpeg";
+import banner1 from "../assets/img/banner1.jpg";
+import banner3 from "../assets/img/banner3.png";
+import banner4 from "../assets/img/banner4.jpg";
 import {
   CheckCircle,
   Clipboard,
@@ -40,8 +45,7 @@ const Home: React.FC = () => {
 
   const noticias = [
     {
-      imagen:
-        "https://static.wixstatic.com/media/9c2001_de96b6ea76354fe787a6e68d43375195~mv2.jpg/v1/fill/w_640,h_400,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/9c2001_de96b6ea76354fe787a6e68d43375195~mv2.jpg",
+      imagen: banner1,
       titulo:
         "Compra de truchas para reforzar el servicio alimentario de Qali Warma",
       subtitulo: "Iniciativa para mejorar la alimentación escolar",
@@ -49,16 +53,14 @@ const Home: React.FC = () => {
         "La Municipalidad Distrital de Sabaino adquirirá truchas directamente de productores locales para fortalecer el servicio alimentario del programa Qali Warma, beneficiando a cientos de estudiantes.",
     },
     {
-      imagen:
-        "https://www.entreculturas.org/wp-content/uploads/2024/11/Cuzco-Comunidades-55-Monteserin.jpg",
+      imagen: banner3,
       titulo: "Mejoramiento de infraestructura educativa en Sabaino",
       subtitulo: "Proyecto para optimizar espacios de aprendizaje",
       descripcion:
         "Se iniciaron trabajos de rehabilitación en diversas instituciones educativas del distrito, con el objetivo de proporcionar ambientes más adecuados para los estudiantes.",
     },
     {
-      imagen:
-        "https://www.limacomovamos.org/wp-content/uploads/2021/12/Imagen-3-red.png",
+      imagen: banner4,
       titulo: "Implementación de sistema de videovigilancia en Sabaino",
       subtitulo: "Medida para fortalecer la seguridad ciudadana",
       descripcion:
@@ -100,7 +102,7 @@ const Home: React.FC = () => {
       </Element>
       <Element
         name="actualidad"
-        className="h-full w-full bg-gray-50 flex flex-col items-center py-20 px-4"
+        className="h-full w-full pt-40 bg-gray-50 flex flex-col items-center py-20 px-4"
       >
         <h2 className="text-3xl sm:text-4xl font-semibold mb-12 text-gray-800 text-center">
           Actualidad
@@ -139,13 +141,13 @@ const Home: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 lg:mt-0">
             <img
-              className="w-full rounded-lg"
-              src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png"
+              className="w-full h-96 object-cover rounded-lg"
+              src={alcalde}
               alt="Office content 1"
             />
             <img
-              className="w-full rounded-lg"
-              src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png"
+              className="w-full rounded-lg h-96 object-cover "
+              src={fondoImg}
               alt="Office content 2"
             />
           </div>
@@ -153,7 +155,7 @@ const Home: React.FC = () => {
       </Element>
       <Element
         name="noticias"
-        className="min-h-screen w-full bg-gray-800 flex flex-col items-center py-20 px-4"
+        className="min-h-screen w-full pt-40 bg-gray-800 flex flex-col items-center py-20 px-4"
       >
         <h2 className="text-3xl sm:text-4xl font-semibold text-white mb-12 text-center">
           Noticias Recientes
@@ -192,7 +194,7 @@ const Home: React.FC = () => {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url(${fondoImg})`,
+            backgroundImage: `url(${toro})`,
             backgroundAttachment: "fixed",
           }}
         ></div>
@@ -210,7 +212,6 @@ const Home: React.FC = () => {
           </div>
         </div>
       </Element>
-
       <Element
         name="proyectos"
         className="w-full bg-white py-48 px-4 flex items-center justify-center"
