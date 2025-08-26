@@ -58,7 +58,7 @@ function Actas() {
           {loading ? "Generando..." : "Generar acta"}
         </button>
       </div>
-      <div className="overflow-x-auto bg-white rounded-lg border border-gray-300">
+      <div className="overflow-x-auto overflow-y-auto max-h-[680px] bg-white rounded-lg border border-gray-300">
         <table className="min-w-full divide-y divide-gray-200 text-sm">
           <thead className="bg-gray-50">
             <tr>

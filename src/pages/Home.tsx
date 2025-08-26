@@ -88,7 +88,7 @@ const Home: React.FC = () => {
             trámites de forma rápida y segura.
           </p>
           <button
-            onClick={() => navigate("/tramite")}
+            onClick={() => navigate("/search")}
             className="bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition duration-300"
           >
             Sistema de Mesa de Partes

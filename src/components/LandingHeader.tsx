@@ -3,10 +3,10 @@ import Logo from "../assets/icon/logo.png";
 import { useNavigate } from "react-router-dom";
 
 const LandingHeader: React.FC = () => {
-  const navigate = useNavigate(); // <-- hook para navegación
+  const navigate = useNavigate();
 
   const handleTramite = () => {
-    navigate("/tramite"); // <-- redirige a la ruta de FormularioTramite
+    navigate("/tramite");
   };
 
   return (
