@@ -1,5 +1,5 @@
 export interface ApiResponse<T> {
   type: "success" | "error";
-  dto: T;
+  dto: T | null;
   listMessages: string[];
 }

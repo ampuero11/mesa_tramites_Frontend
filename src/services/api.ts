@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosError } from "axios";
 import store from "../redux/store";
-
-const API_URL = "http://localhost:8000/api";
+import { API_URL } from "../constants/api";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -12,7 +12,7 @@ api.interceptors.request.use(
     const state = store.getState();
     const access = state.auth?.access;
 
-    if (access && !config.headers?.skipAuth) {
+    if (access) {
       config.headers.Authorization = `Bearer ${access}`;
     }
 
@@ -24,20 +24,21 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const originalRequest: any = error.config;
     const state = store.getState();
+
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const refresh = state.auth?.refresh;
 
+      const refresh = state.auth?.refresh;
       if (refresh) {
         try {
-          const { data } = await api.post(
-            "/refresh",
-            { refresh },
-            { headers: { skipAuth: true } }
-          );
+          console.log("Intentando refresh...");
+
+          const { data } = await axios.post(`${API_URL}/auth/refresh/`, {
+            refresh,
+          });
+
           store.dispatch({
             type: "auth/setCredentials",
             payload: {
@@ -50,6 +51,7 @@ api.interceptors.response.use(
           originalRequest.headers.Authorization = `Bearer ${data.dto.access}`;
           return api(originalRequest);
         } catch (err) {
+          console.log("Refresh falló, cerrando sesión...");
           store.dispatch({ type: "auth/logout" });
           return Promise.reject(err);
         }
