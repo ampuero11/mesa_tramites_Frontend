@@ -1,22 +1,50 @@
 import { useParams } from "react-router-dom";
 import { FileText, Info, MessageSquare } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAdminTramites } from "../../hooks/useAdminTramites";
+import { Document, Page } from "react-pdf";
+import { STATUS_LABELS } from "../../constants/states";
 
 function TramiteDetail() {
   const { id } = useParams<{ id: string }>();
-  const pdfUrl = "https://www.ugr.es/~fmartin/dvi/derivadas.pdf";
+  const { tramiteDetail, sendTramiteResponse, changeTramiteStatus } =
+    useAdminTramites();
 
   const [status, setStatus] = useState("in_process");
   const [comment, setComment] = useState("");
+  const [fileUrl, setFileUrl] = useState("");
+
+  useEffect(() => {
+    tramiteDetail.fetchData(id || "");
+  }, [id]);
+
+  useEffect(() => {
+    if (tramiteDetail.data?.files?.length) {
+      setFileUrl(`${tramiteDetail.data.files[0].file.file_path}`);
+      setStatus(tramiteDetail.data.status);
+    }
+  }, [tramiteDetail.data]);
 
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setStatus(e.target.value);
+    const newStatus = e.target.value as keyof typeof STATUS_LABELS;
+    setStatus(newStatus);
+
+    if (!id) return;
+    changeTramiteStatus(id, newStatus);
   };
 
   const handleSendComment = () => {
     if (!comment.trim()) return;
-    console.log("Comentario enviado:", comment);
+    if (!id) return;
+    sendTramiteResponse(id, comment);
     setComment("");
+  };
+
+  const handleDownload = () => {
+    if (fileUrl) {
+      const fullUrl = `${fileUrl}`;
+      window.open(fullUrl, "_blank");
+    }
   };
 
   return (
@@ -26,14 +54,12 @@ function TramiteDetail() {
           <FileText className="w-5 h-5 text-gray-500" />
           Documento principal
         </h2>
-        <div className="flex justify-center overflow-hidden rounded-lg border border-gray-200">
-          <iframe
-            src={pdfUrl}
-            title="Documento PDF"
-            width="100%"
-            height="680px"
-            className="rounded-lg"
-          ></iframe>
+        <div className="flex justify-center overflow-hidden rounded-lg border max-h-[680px] overflow-y-auto border-gray-200">
+          {fileUrl && fileUrl.endsWith(".pdf") && (
+            <Document file={fileUrl}>
+              <Page pageNumber={1} />
+            </Document>
+          )}
         </div>
       </div>
       <div className="w-full lg:w-1/3 border border-gray-200 rounded-2xl p-4 bg-white flex flex-col justify-between">
@@ -48,37 +74,41 @@ function TramiteDetail() {
               onChange={handleStatusChange}
               className="text-sm border border-gray-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
-              <option value="received">Recibido</option>
-              <option value="in_process">En Proceso</option>
-              <option value="attended">Atendido</option>
-              <option value="rejected">Rechazado</option>
+              {Object.entries(STATUS_LABELS).map(([key, label]) => (
+                <option key={key} value={key}>
+                  {label}
+                </option>
+              ))}
             </select>
           </div>
           <div className="space-y-2 text-sm text-gray-600">
             <p>
-              <span className="font-medium">ID:</span> {id}
+              <span className="font-medium">Código:</span>{" "}
+              {tramiteDetail.data?.code}
             </p>
             <p>
-              <span className="font-medium">Código:</span> TRM-2025-0001
+              <span className="font-medium">Nombre:</span>{" "}
+              {tramiteDetail.data?.full_name}
             </p>
             <p>
-              <span className="font-medium">Nombre:</span> Luis Fernando
-            </p>
-            <p>
-              <span className="font-medium">Documento:</span> 12345678
+              <span className="font-medium">Documento:</span>{" "}
+              {tramiteDetail.data?.document}
             </p>
             <p>
               <span className="font-medium">Correo:</span>{" "}
-              luisfernando3chr@gmail.com
+              {tramiteDetail.data?.email}
             </p>
             <p>
-              <span className="font-medium">Teléfono:</span> 904479320
+              <span className="font-medium">Teléfono:</span>{" "}
+              {tramiteDetail.data?.phone}
             </p>
             <p>
-              <span className="font-medium">Concepto:</span> Solicitud de prueba
+              <span className="font-medium">Concepto:</span>{" "}
+              {tramiteDetail.data?.concept}
             </p>
             <p>
-              <span className="font-medium">Fecha:</span> 24/08/2025
+              <span className="font-medium">Fecha:</span>{" "}
+              {tramiteDetail.data?.created_at}
             </p>
           </div>
         </div>
@@ -99,6 +129,13 @@ function TramiteDetail() {
             className="px-4 py-2 bg-sky-600 text-white text-sm rounded-lg hover:bg-sky-700 transition"
           >
             Enviar
+          </button>
+
+          <button
+            onClick={handleDownload}
+            className="px-4 py-2 bg-sky-600 text-white text-sm rounded-lg hover:bg-sky-700 transition"
+          >
+            Ver completo
           </button>
         </div>
       </div>

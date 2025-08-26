@@ -1,13 +1,24 @@
 import { useState } from "react";
 import { Search } from "lucide-react";
+import { useAdminTramites } from "../../hooks/useAdminTramites";
+import { useNavigate } from "react-router-dom";
 
 function TramiteSearch() {
   const [code, setCode] = useState("");
+  const { getTramiteByCode } = useAdminTramites();
+  const navigate = useNavigate();
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (!code.trim()) return;
-    console.log("Buscando trámite con código:", code);
-    // Aquí iría la lógica para buscar en tu backend
+
+    const response = await getTramiteByCode(code);
+
+    if (response?.type === "success" && response.dto) {
+      navigate(`/admin/tramites/${response.dto.id}`);
+    } else {
+      console.log("Error:", response?.listMessages);
+      alert("Trámite no encontrado");
+    }
   };
 
   return (

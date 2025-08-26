@@ -1,24 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FileText, Download, PlusCircle } from "lucide-react";
+import { useActas } from "../../hooks/useActas";
+import { BASE_URL } from "../../constants/api";
+import { formatDateTime } from "../../utils/date";
 
 function Actas() {
+  const { getActas, generateActa } = useActas();
   const [loading, setLoading] = useState(false);
-  const [actas, setActas] = useState([
-    { id: 1, fecha: "2025-08-20", nombre: "Acta N°1" },
-    { id: 2, fecha: "2025-08-21", nombre: "Acta N°2" },
-  ]);
 
-  const handleGenerarActa = () => {
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        await getActas.fetchData();
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetch();
+  }, []);
+
+  const handleGenerarActa = async () => {
     setLoading(true);
-    setTimeout(() => {
-      const nuevaActa = {
-        id: actas.length + 1,
-        fecha: new Date().toISOString().split("T")[0],
-        nombre: `Acta N°${actas.length + 1}`,
-      };
-      setActas([...actas, nuevaActa]);
+    try {
+      await generateActa.fetchData();
+      await getActas.fetchData();
+    } catch (err) {
+      console.error(err);
+    } finally {
       setLoading(false);
-    }, 2000);
+    }
+  };
+
+  const handleDownload = (file: string) => {
+    if (file) {
+      const fullUrl = `${BASE_URL}${file}`;
+      window.open(fullUrl, "_blank");
+    }
   };
 
   return (
@@ -60,26 +77,37 @@ function Actas() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {actas.length === 0 ? (
+            {getActas.loading ? (
               <tr>
                 <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
-                  No hay actas registradas
+                  Cargando...
                 </td>
               </tr>
-            ) : (
-              actas.map((acta) => (
+            ) : getActas.data && getActas.data.length > 0 ? (
+              getActas.data.map((acta) => (
                 <tr key={acta.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">{acta.id}</td>
-                  <td className="px-6 py-4">{acta.fecha}</td>
-                  <td className="px-6 py-4">{acta.nombre}</td>
+                  <td className="px-6 py-4">
+                    {formatDateTime(acta.created_at)}
+                  </td>
+                  <td className="px-6 py-4">{acta.created_by.email}</td>
                   <td className="px-6 py-4 text-right">
-                    <button className="flex items-center gap-1 px-3 py-1 bg-green-600 text-white text-xs rounded-lg hover:bg-green-700 transition">
+                    <button
+                      onClick={() => handleDownload(acta.file)}
+                      className="flex items-center gap-1 px-3 py-1 bg-green-600 text-white text-xs rounded-lg hover:bg-green-700 transition"
+                    >
                       <Download className="w-4 h-4" />
                       Descargar
                     </button>
                   </td>
                 </tr>
               ))
+            ) : (
+              <tr>
+                <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
+                  No hay actas registradas
+                </td>
+              </tr>
             )}
           </tbody>
         </table>

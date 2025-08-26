@@ -1,26 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { User, FileText, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-const mockData = [
-  {
-    id: "5064c52b-4ce1-46e9-9ab9-5f909965e2f2",
-    code: "TRM-2025-0001",
-    full_name: "Luis Fernando",
-    document: "12345678",
-    email: "luisfernando3chr@gmail.com",
-    phone: "904479320",
-    concept: "Solicitud de prueba",
-    status: "in_process",
-    created_at: "2025-08-24T17:57:32.007272Z",
-  },
-];
+import { useAdminTramites } from "../../hooks/useAdminTramites";
+import { useEffect } from "react";
 
 function TramitesList() {
   const navigate = useNavigate();
+  const { tramites } = useAdminTramites();
+
+  useEffect(() => {
+    tramites.fetchData();
+  }, []);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {mockData.map((tramite) => (
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-h-[680px] overflow-y-auto">
+      {tramites.data?.map((tramite) => (
         <div
           key={tramite.id}
           className="rounded-xl border border-gray-200 bg-white transition transform hover:scale-[1.02] hover:border-sky-700"
