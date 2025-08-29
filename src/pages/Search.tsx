@@ -47,7 +47,9 @@ const SearchPublic: React.FC = () => {
             <div className="h-4 bg-gray-300 rounded w-5/6"></div>
           </div>
         )}
-        {error && <p className="text-red-500 text-center">{error}</p>}
+        {error && (
+          <p className="text-red-500 text-center">No se encontro el trámite</p>
+        )}
         {data && (
           <div className="mt-4 bg-white rounded-lg shadow-md p-4 border border-gray-200">
             <div className="flex items-center justify-between mb-2">
