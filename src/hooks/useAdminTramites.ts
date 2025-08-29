@@ -17,6 +17,9 @@ export const useAdminTramites = () => {
     null
   );
 
+  const [actionSuccess, setActionSuccess] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
+
   const fetchTramites = useCallback(async () => {
     setTramitesLoading(true);
     setTramitesError(null);
@@ -51,11 +54,13 @@ export const useAdminTramites = () => {
 
   const changeTramiteStatus = useCallback(
     async (id: string, status: string) => {
+      setActionError(null);
+      setActionSuccess(null);
       try {
-        return await tramiteService.changeStatus(id, status);
-      } catch (err) {
-        console.error(err);
-        return null;
+        await tramiteService.changeStatus(id, status);
+        setActionSuccess("Estado del trámite actualizado correctamente");
+      } catch (err: any) {
+        setActionError(err.message || "Error al cambiar estado del trámite");
       }
     },
     []
@@ -63,11 +68,13 @@ export const useAdminTramites = () => {
 
   const sendTramiteResponse = useCallback(
     async (id: string, message: string) => {
+      setActionError(null);
+      setActionSuccess(null);
       try {
-        return await tramiteService.sendTramiteResponse(id, message);
-      } catch (err) {
-        console.error(err);
-        return null;
+        await tramiteService.sendTramiteResponse(id, message);
+        setActionSuccess("Respuesta enviada correctamente");
+      } catch (err: any) {
+        setActionError(err.message || "Error al enviar respuesta");
       }
     },
     []
@@ -81,6 +88,11 @@ export const useAdminTramites = () => {
       return null;
     }
   }, []);
+
+  const resetActionStatus = () => {
+    setActionError(null);
+    setActionSuccess(null);
+  };
 
   return {
     tramites: {
@@ -98,5 +110,9 @@ export const useAdminTramites = () => {
     changeTramiteStatus,
     sendTramiteResponse,
     getTramiteByCode,
+
+    actionError,
+    actionSuccess,
+    resetActionStatus,
   };
 };

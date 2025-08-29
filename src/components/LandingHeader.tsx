@@ -62,12 +62,12 @@ const LandingHeader: React.FC = () => {
             </li>
             <li>
               <Link
-                to="noticias"
+                to="informacion"
                 smooth={true}
                 duration={600}
                 className="cursor-pointer block py-2 px-3 text-white hover:text-sky-300"
               >
-                Noticias
+                Información
               </Link>
             </li>
             <li>
@@ -77,7 +77,7 @@ const LandingHeader: React.FC = () => {
                 duration={600}
                 className="cursor-pointer block py-2 px-3 text-white hover:text-sky-300"
               >
-                Participación Ciudadana
+                Participación
               </Link>
             </li>
             <li>

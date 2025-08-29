@@ -4,11 +4,18 @@ import { useEffect, useState } from "react";
 import { useAdminTramites } from "../../hooks/useAdminTramites";
 import { Document, Page } from "react-pdf";
 import { STATUS_LABELS } from "../../constants/states";
+import { toast } from "react-toastify";
 
 function TramiteDetail() {
   const { id } = useParams<{ id: string }>();
-  const { tramiteDetail, sendTramiteResponse, changeTramiteStatus } =
-    useAdminTramites();
+  const {
+    tramiteDetail,
+    sendTramiteResponse,
+    changeTramiteStatus,
+    actionError,
+    actionSuccess,
+    resetActionStatus,
+  } = useAdminTramites();
 
   const [status, setStatus] = useState("in_process");
   const [comment, setComment] = useState("");
@@ -25,10 +32,19 @@ function TramiteDetail() {
     }
   }, [tramiteDetail.data]);
 
+  useEffect(() => {
+    if (actionError) {
+      toast.error(actionError);
+      resetActionStatus();
+    } else if (actionSuccess) {
+      toast.success(actionSuccess);
+      resetActionStatus();
+    }
+  }, [actionError, actionSuccess, resetActionStatus]);
+
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newStatus = e.target.value as keyof typeof STATUS_LABELS;
     setStatus(newStatus);
-
     if (!id) return;
     changeTramiteStatus(id, newStatus);
   };
@@ -39,7 +55,6 @@ function TramiteDetail() {
     sendTramiteResponse(id, comment);
     setComment("");
   };
-
   const handleDownload = () => {
     if (fileUrl) {
       const fullUrl = `${fileUrl}`;

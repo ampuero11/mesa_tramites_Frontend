@@ -21,7 +21,7 @@ const LandingFooter: React.FC = () => {
           </a>
           <div className="flex space-x-4">
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/municipalidaddistritaldesabaino?rdid=oiLDjOIxN12U9CpQ&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1CN47VjdvL%2F"
               target="_blank"
               rel="noreferrer"
               className="hover:text-sky-300"

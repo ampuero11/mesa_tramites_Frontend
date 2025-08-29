@@ -22,7 +22,7 @@ const schema = yup.object().shape({
 });
 
 function FormularioTramite() {
-  const { crearTramite, loading, error, success } = useTramite();
+  const { crearTramite, loading, error, success, resetStatus } = useTramite();
   const [files, setFiles] = useState<File[]>([]);
 
   const {
@@ -35,13 +35,16 @@ function FormularioTramite() {
   });
 
   useEffect(() => {
-    if (error) toast.error(error);
-    if (success) {
+    if (error) {
+      toast.error(error);
+      resetStatus();
+    } else if (success) {
       toast.success("Se envió su trámite...");
       reset();
       setFiles([]);
+      resetStatus();
     }
-  }, [error, success, reset]);
+  }, [error, success, reset, resetStatus]);
 
   const onSubmit = async (
     data: Pick<

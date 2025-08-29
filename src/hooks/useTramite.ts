@@ -35,11 +35,15 @@ export function useTramite() {
     } catch (err: any) {
       const msg = err.response?.data?.message || "Error al crear trámite";
       setError(msg);
-      throw new Error(msg);
     } finally {
       setLoading(false);
     }
   };
 
-  return { crearTramite, loading, error, success };
+  const resetStatus = () => {
+    setError(null);
+    setSuccess(false);
+  };
+
+  return { crearTramite, loading, error, success, resetStatus };
 }

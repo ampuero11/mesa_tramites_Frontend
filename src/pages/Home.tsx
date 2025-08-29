@@ -46,25 +46,24 @@ const Home: React.FC = () => {
   const noticias = [
     {
       imagen: banner1,
-      titulo:
-        "Compra de truchas para reforzar el servicio alimentario de Qali Warma",
-      subtitulo: "Iniciativa para mejorar la alimentación escolar",
+      titulo: "Misión",
+      subtitulo: "",
       descripcion:
-        "La Municipalidad Distrital de Sabaino adquirirá truchas directamente de productores locales para fortalecer el servicio alimentario del programa Qali Warma, beneficiando a cientos de estudiantes.",
+        "Sabaino es un distrito agroecológico y minero con paz social y producción diversificada , ambientalmente sostenible , que esta mejorando la calidad de vida de sus habitantes.",
     },
     {
       imagen: banner3,
-      titulo: "Mejoramiento de infraestructura educativa en Sabaino",
-      subtitulo: "Proyecto para optimizar espacios de aprendizaje",
+      titulo: "Visión",
+      subtitulo: "",
       descripcion:
-        "Se iniciaron trabajos de rehabilitación en diversas instituciones educativas del distrito, con el objetivo de proporcionar ambientes más adecuados para los estudiantes.",
+        "Promover el desarrollo integral y sostenible del distrito de sabaino, brindando servicios de calidad a través de una gestión moderna, transparente, eficiente, inclusiva y participativa, orientada a resultados.",
     },
     {
       imagen: banner4,
-      titulo: "Implementación de sistema de videovigilancia en Sabaino",
-      subtitulo: "Medida para fortalecer la seguridad ciudadana",
+      titulo: "Nuestra historia",
+      subtitulo: "",
       descripcion:
-        "La municipalidad ha instalado cámaras de seguridad en puntos estratégicos del distrito, con el fin de prevenir delitos y mejorar la tranquilidad de los vecinos.",
+        "El distrito de Sabaino fue creado mediante la Ley N° 9357 del 20 de febrero de 1941, durante el primer gobierno de Manuel Prado Ugarteche. Antes de esta fecha, Sabaino era probablemente un anexo o parte de otro distrito más grande dentro de la provincia de Antabamba.",
     },
   ];
 
@@ -93,7 +92,7 @@ const Home: React.FC = () => {
             onClick={() => navigate("/search")}
             className="bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition duration-300"
           >
-            Sistema de Mesa de Partes
+            Buscar trámite
             <span className="absolute inset-0 w-full h-full bg-white/20 rounded-lg -translate-y-full animate-translateY"></span>
           </button>
         </div>
@@ -154,11 +153,11 @@ const Home: React.FC = () => {
         </div>
       </Element>
       <Element
-        name="noticias"
+        name="informacion"
         className="min-h-screen w-full pt-40 bg-gray-800 flex flex-col items-center py-20 px-4"
       >
         <h2 className="text-3xl sm:text-4xl font-semibold text-white mb-12 text-center">
-          Noticias Recientes
+          Información
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl">
@@ -179,7 +178,7 @@ const Home: React.FC = () => {
                 <p className="text-gray-600 text-sm mb-4">
                   {noticia.subtitulo}
                 </p>
-                <p className="text-gray-700 text-base line-clamp-3">
+                <p className="text-gray-700 text-base line-clamp-10">
                   {noticia.descripcion}
                 </p>
               </div>
