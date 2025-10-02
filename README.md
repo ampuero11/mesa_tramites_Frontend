@@ -4,7 +4,7 @@ El Sistema de Mesa de Partes es una aplicación web que permite la recepción, r
 Los usuarios pueden enviar sus documentos de forma digital, mientras que los administradores pueden revisarlos, responderlos y dar seguimiento al estado del trámite (pendiente, en proceso o atendido).
 
 ## ⚙️ Instalación
-Seguir los siguientes comandos en una terminal para levantar el proyecto (tener isntalado git y node)
+Seguir los siguientes comandos en una terminal para levantar el proyecto (tener instalado git y node)
 
 ```bash
 git clone https://github.com/ampuero11/mesa_tramites_Frontend
